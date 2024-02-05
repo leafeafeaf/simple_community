@@ -6,7 +6,6 @@
       <div>조회수순</div>
       <div>추천순</div>
     </div>
-
     <div class="content-list-div">게시글 리스트</div>
     <div class="down-button-div">
       <button class="write-button">게시글 작성</button>

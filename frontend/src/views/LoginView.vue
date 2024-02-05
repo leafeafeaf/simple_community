@@ -18,7 +18,8 @@
 <script>
 export default {};
 </script>
-<style>
+
+<style scoped>
 .id-div {
   display: flex;
   justify-content: center;
