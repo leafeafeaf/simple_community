@@ -1,10 +1,17 @@
 const express = require('express');
-
 const router = express.Router();
+const {Content,User,Comment,Recommendation} = require('../models');
 
-router.get('/',(req,res) => {
-    res.send('simple /');
+router.get('/',async (req,res) => {
+    try {
+        const a = await Recommendation.findAll();
+        res.json(a);
+    } catch (error) {
+        console.log(err);
+        next(err);
+    }
 });
+
 
 //게시글 작성
 router.post('/content',(req,res) => {
