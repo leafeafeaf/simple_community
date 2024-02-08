@@ -1,5 +1,5 @@
 <template>
-  <form action="get">
+  <form action="" method="">
     <div class="id-div">
       <div class="id-div-div">
         <span class="id">아이디</span> <input type="text" name="" id="" />

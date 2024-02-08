@@ -8,7 +8,9 @@
     </div>
     <div class="content-list-div">게시글 리스트</div>
     <div class="down-button-div">
-      <button class="write-button">게시글 작성</button>
+      <button class="write-button">
+        <router-link to="/write">글쓰기</router-link>
+      </button>
       <button class="famous-button">인기글</button>
     </div>
 

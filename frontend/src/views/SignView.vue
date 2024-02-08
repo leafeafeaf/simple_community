@@ -1,5 +1,5 @@
 <template lang="">
-  <form action="get">
+  <form action="" method="">
     <table class="table">
       <tbody>
         <tr>
