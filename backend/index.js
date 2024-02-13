@@ -40,11 +40,11 @@ app.use((req,res,next)=>{
     next(error);
 });
 
-app.use((err,req,res,next)=>{
-    res.locals.message = err.message;
-    res.locals.error = process.env.NODE_ENV !== 'production' ? err : {};
-    res.status(err.status || 500);
-    res.render('error');
+app.use((error,req,res,next)=>{
+    res.locals.message = error.message;
+    res.locals.error = process.env.NODE_ENV !== 'production' ? error : {};
+    res.status(error.status || 500);
+    res.send(error.message);
 })
 
 app.listen(app.get('port'),()=>{

@@ -2,21 +2,33 @@ const express = require('express');
 const router = express.Router();
 const {Content,User,Comment,Recommendation} = require('../models');
 
-router.get('/',async (req,res) => {
+router.get('/',async (req,res,next) => {
     try {
         const a = await Recommendation.findAll();
         res.json(a);
     } catch (error) {
-        console.log(err);
-        next(err);
+        console.log(error);
+        next(error);
     }
 });
 
 
 //게시글 작성
-router.post('/content',(req,res) => {
-    res.send('게시글 작성 api 호출');
+router.post('/content',async (req,res,next) => {
+    try {
+        const result = await Content.create({
+            writer:req.body.writer,
+            title: req.body.title,
+            content:req.body.content,
+            file:req.body.file,
+        });
+        res.json({content_id:result.dataValues.content_id});
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
 });
+
 //게시글 수정
 router.put('/content/:content_id',(req,res) => {
     res.send('게시글 수정 api 호출');

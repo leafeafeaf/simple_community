@@ -27,6 +27,8 @@ Content.init(sequelize);
 User.init(sequelize);
 Comment.init(sequelize);
 Recommendation.init(sequelize);
-
+//관계 설정
+Content.associate(db);
+Comment.associate(db);
 
 module.exports = db;

@@ -57,6 +57,8 @@ module.exports = class Content extends Sequelize.Model{
             collate:'utf8mb3_general_ci',
         });
     }
-    static associate(db){}
+    static associate(db){ //관계설정
+        db.Content.hasMany(db.Comment, {foreignKey: 'content_id', sourceKey:'content_id'});
+    }
 
 };
