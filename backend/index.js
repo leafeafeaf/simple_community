@@ -9,7 +9,7 @@ dotenv.config();
 
 //서버 포트 설정
 const app = express();
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3030);
 
 //DB ORM 연결 (sequelize)
 sequelize.sync({force:false})

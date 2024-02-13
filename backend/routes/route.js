@@ -76,12 +76,38 @@ router.post('/sign',(req,res) => {
     res.send('회원가입 api 호출');
 });
 //ID중복체크
-router.get('/id-check',(req,res) => {
-    res.send('id중복체크 api 호출');
+router.get('/id-check',async(req,res,next) => {
+    try{
+        const result = await User.findAll({
+            where: {user_id : req.body.user_id}
+        });
+        if(typeof result === 'object'   // 중복체크
+           && Object.keys(result).length === 0)  {
+           res.json({result:true}); // true면 사용가능
+         }else{
+            res.json({result:false}) // false면 중복임
+         }
+    }catch(error){
+        console.log(error);
+        next(error);    
+    }
 });
 //email중복체크
-router.get('/email-check',(req,res) => {
-    res.send('email중복체크 api 호출');
+router.get('/email-check',async (req,res,next) => {
+    try{
+        const result = await User.findAll({
+            where: {email : req.body.email}
+        });
+        if(typeof result === 'object'   // 중복체크
+           && Object.keys(result).length === 0)  {
+           res.json({result:true}); // true면 사용가능
+         }else{
+            res.json({result:false}) // false면 중복임
+         }
+    }catch(error){
+        console.log(error);
+        next(error);    
+    }
 });
 
 module.exports = router;
