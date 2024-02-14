@@ -220,19 +220,70 @@ router.delete("/comment/:comment_id", async (req, res, next) => {
   }
 });
 //좋아요
-router.post("/like/:content_id", (req, res) => {
-  res.send("좋아요 api 호출");
-  console.log(req.params.content_id);
+router.post("/like/:content_id", async (req, res, next) => {
+  try {
+    if(req.body.is_like == 0){  // 0이면 추가, 1이면 삭제 // == 이면 타입 상관없이 값만 같아도 됨 === 이면 타입과 값이 모두 같아야함
+      const result = await Recommendation.create({
+        content_id: req.params.content_id,
+        writer: req.body.writer, 
+      });
+      // recom_num을 하나 올리는 트리거 추가해야함
+      res.json({is_like: true});
+    }else if(req.body.is_like == 1){
+      const result = await Recommendation.destroy({
+        where: {
+          content_id: req.params.content_id,
+          writer: req.body.writer, 
+        },
+      });
+      if(result == 1){  // 정상적으로 삭제 되었을 경우
+        res.json({is_like: false});
+        console.log(result);
+      }else{    // 정상적으로 삭제 되지 않았을 경우
+        res.json({return: false});      
+        console.log(result);
+      }
+    }else{ // 0과 1이 아닐 경우
+      res.json({return: false}); 
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //로그인
-router.get("/login", (req, res) => {
-  res.send("로그인 api 호출");
+router.get("/login", async (req, res, next) => {
+  try {
+    const result = await User.findOne({
+      where: {
+        user_id: req.body.user_id,
+        pw: req.body.pw,
+      },
+    });
+    if(result != null){
+      res.json({result: true});
+    }else{
+      res.json({errMsg: "아이디와 비밀번호가 틀림"});
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //회원가입
-router.post("/sign", (req, res) => {
-  res.send("회원가입 api 호출");
+router.post("/sign", async (req, res, next) => {
+  try {
+    const result = await User.create({
+      user_id: req.body.user_id,
+      pw: req.body.pw,
+      email: req.body.email,
+    });
+    res.json({ result: true }); 
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
-
 //ID중복체크
 router.get("/id-check", async (req, res, next) => {
   try {
