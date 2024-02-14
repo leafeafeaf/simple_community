@@ -64,7 +64,7 @@ router.delete("/content/:content_id", async (req, res, next) => {
         content_id: req.params.content_id,
       },
     });
-    if (result[0] === 1) {
+    if (result === 1) {
       res.json({ result: true });
     } else {
       res.json({ result: false });
@@ -110,6 +110,15 @@ router.get("/content/list", async (req, res, next) => {
     }
 
     const result = await Content.findAll({
+      attributes: [
+        "content_id",
+        "title",
+        "writer",
+        "date",
+        "view_num",
+        "comment_num",
+        "recom_num",
+      ],
       limit: limit_num,
       offset: Number(req.body.page) * limit_num, //0부터 시작
       order: [
@@ -123,7 +132,7 @@ router.get("/content/list", async (req, res, next) => {
         writer: { [Op.like]: "%" + writer_search + "%" },
       },
     });
-    
+
     res.json(result);
   } catch (error) {
     console.log(error);
@@ -132,23 +141,83 @@ router.get("/content/list", async (req, res, next) => {
 });
 
 //게시글 한개 정보가져오기
-router.get("/content/:content_id", (req, res) => {
-  res.send("게시글 정보 가져오기 api 호출");
-  console.log(req.params.content_id);
+router.get("/content/:content_id", async (req, res, next) => {
+  try {
+    const obj ={};
+    const result = await Content.findOne({
+      //findAll은 배열형식으로 리턴, findOne 객체(or Null)로 리턴
+      where: { content_id: req.params.content_id },
+    });
+    obj.content=result;
+    obj.is_like=false;
+    // 게시글 볼려면 로그인이 필요하냐 X 로그인 안해도 보자나
+    //user_id
+    //유저 아이디 빈값이 ""아니면 null이냐
+    //세션 써야하냐
+    /////////////////////////////////////////////////////////////// recommendation에서 select
+    if (req.body.user_id) {
+      const is_recom = await Recommendation.findOne({
+        where: {
+          content_id: req.params.content_id,
+          writer: req.body.user_id,
+        },
+      }); //{} null
+
+      //result에 key추가하기 가능함?
+      if (is_recom) {
+        obj.is_like = true;
+      }
+    }
+    res.json(obj);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //댓글 리스트 받기
-router.get("/comment/list/:content_id", (req, res) => {
-  res.send("댓글 리스트 받기 api 호출");
-  console.log(req.params.content_id);
+router.get("/comment/list/:content_id", async (req, res, next) => {
+  try {
+    const result = await Comment.findAll({
+      where: { content_id: req.params.content_id },
+    });
+    res.json(result); // true면 사용가능
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //댓글 작성
-router.post("/comment", (req, res) => {
-  res.send("댓글 작성 api 호출");
+router.post("/comment", async (req, res, next) => {
+  try {
+    const result = await Comment.create({
+      content_id: req.body.content_id,
+      content: req.body.content,
+      writer: req.body.writer,
+    });
+    res.json(result);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //댓글 삭제
-router.delete("/comment/:comment_id", (req, res) => {
-  res.send("댓글 삭제 api 호출");
-  console.log(req.params.comment_id);
+router.delete("/comment/:comment_id", async (req, res, next) => {
+  try {
+    const result = await Comment.destroy({
+      //결과값으로 update처럼 0과 1 리턴  0삭제된값 없음, 1 정상삭제
+      where: {
+        comment_id: req.params.comment_id,
+      },
+    });
+    if (result === 1) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
 });
 //좋아요
 router.post("/like/:content_id", (req, res) => {
