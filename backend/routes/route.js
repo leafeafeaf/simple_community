@@ -64,6 +64,12 @@ router.delete("/content/:content_id", async (req, res, next) => {
         content_id: req.params.content_id,
       },
     });
+    const result2 = await Recommendation.destroy({
+      //결과값으로 update처럼 0과 1 리턴  0삭제된값 없음, 1 정상삭제
+      where: {
+        content_id: req.params.content_id,
+      },
+    });
     if (result === 1) {
       res.json({ result: true });
     } else {
@@ -77,18 +83,24 @@ router.delete("/content/:content_id", async (req, res, next) => {
 //게시글 리스트 받기
 router.get("/content/list", async (req, res, next) => {
   try {
-    limit_num = 3;
+    limit_num = 4;
     sort_string = "";
     recom_num_search = 0;
-    if ("sort" in req.body) {
+    page_num = 0;
+
+    if ("page" in req.query) {
+      page_num = req.query.page;
+    }
+
+    if ("sort" in req.query) {
       //sort 키가 있음
-      if (req.body.sort == "view") {
+      if (req.query.sort == "view") {
         sort_string = "view_num";
-      } else if (req.body.sort == "recom") {
+      } else if (req.query.sort == "recom") {
         sort_string = "recom_num";
-      } else if (req.body.sort == "comment") {
+      } else if (req.query.sort == "comment") {
         sort_string = "comment_num";
-      } else if (req.body.sort == "famous") {
+      } else if (req.query.sort == "famous") {
         sort_string = "date";
         recom_num_search = 10;
       } else {
@@ -101,11 +113,11 @@ router.get("/content/list", async (req, res, next) => {
     //req.body.search가 1이면 title 검색 0이면 writer 검색
     title_search = "";
     writer_search = "";
-    if ("search" in req.body) {
-      if (req.body.search == 0) {
-        writer_search = req.body.search_content;
+    if ("search" in req.query) {
+      if (req.query.search == 0) {
+        writer_search = req.query.search_content;
       } else {
-        title_search = req.body.search_content;
+        title_search = req.query.search_content;
       }
     }
 
@@ -120,7 +132,7 @@ router.get("/content/list", async (req, res, next) => {
         "recom_num",
       ],
       limit: limit_num,
-      offset: Number(req.body.page) * limit_num, //0부터 시작
+      offset: limit_num * page_num, //0부터 시작
       order: [
         [sort_string, "DESC"],
         ["date", "DESC"],
@@ -143,28 +155,35 @@ router.get("/content/list", async (req, res, next) => {
 //게시글 한개 정보가져오기
 router.get("/content/:content_id", async (req, res, next) => {
   try {
-    const obj ={};
+    const obj = {};
     const result = await Content.findOne({
       //findAll은 배열형식으로 리턴, findOne 객체(or Null)로 리턴
       where: { content_id: req.params.content_id },
     });
-    obj.content=result;
-    obj.is_like=false;
-    // 게시글 볼려면 로그인이 필요하냐 X 로그인 안해도 보자나
-    //user_id
-    //유저 아이디 빈값이 ""아니면 null이냐
-    //세션 써야하냐
-    /////////////////////////////////////////////////////////////// recommendation에서 select
-    if (req.body.user_id) {
+    result.dataValues.view_num++;
+    obj.content = result;
+    obj.is_like = false;
+    const result2 = await Content.update(
+      {
+        //update는 0이면 안바뀜 1이면 바뀜 //아예 없는 데이터를 수정하면 아무 실행안되고 0을 리턴)
+        view_num: result.dataValues.view_num,
+      },
+      {
+        where: {
+          content_id: req.params.content_id,
+        },
+      }
+    );
+    if (req.query.user_id) {
       const is_recom = await Recommendation.findOne({
         where: {
           content_id: req.params.content_id,
-          writer: req.body.user_id,
+          writer: req.query.user_id,
         },
       }); //{} null
-
       //result에 key추가하기 가능함?
       if (is_recom) {
+        console.log(is_recom);
         obj.is_like = true;
       }
     }
@@ -219,32 +238,36 @@ router.delete("/comment/:comment_id", async (req, res, next) => {
     next(error);
   }
 });
-//좋아요
+
 router.post("/like/:content_id", async (req, res, next) => {
   try {
-    if(req.body.is_like == 0){  // 0이면 추가, 1이면 삭제 // == 이면 타입 상관없이 값만 같아도 됨 === 이면 타입과 값이 모두 같아야함
+    if (req.body.is_like == 0) {
+      // 0이면 추가, 1이면 삭제 // == 이면 타입 상관없이 값만 같아도 됨 === 이면 타입과 값이 모두 같아야함
       const result = await Recommendation.create({
         content_id: req.params.content_id,
-        writer: req.body.writer, 
+        writer: req.body.writer,
       });
       // recom_num을 하나 올리는 트리거 추가해야함
-      res.json({is_like: true});
-    }else if(req.body.is_like == 1){
+      res.json({ is_like: true });
+    } else if (req.body.is_like == 1) {
       const result = await Recommendation.destroy({
         where: {
           content_id: req.params.content_id,
-          writer: req.body.writer, 
+          writer: req.body.writer,
         },
       });
-      if(result == 1){  // 정상적으로 삭제 되었을 경우
-        res.json({is_like: false});
+      if (result == 1) {
+        // 정상적으로 삭제 되었을 경우
+        res.json({ is_like: false });
         console.log(result);
-      }else{    // 정상적으로 삭제 되지 않았을 경우
-        res.json({return: false});      
+      } else {
+        // 정상적으로 삭제 되지 않았을 경우
+        res.json({ return: false });
         console.log(result);
       }
-    }else{ // 0과 1이 아닐 경우
-      res.json({return: false}); 
+    } else {
+      // 0과 1이 아닐 경우
+      res.json({ return: false });
     }
   } catch (error) {
     console.log(error);
@@ -256,14 +279,14 @@ router.get("/login", async (req, res, next) => {
   try {
     const result = await User.findOne({
       where: {
-        user_id: req.body.user_id,
-        pw: req.body.pw,
+        user_id: req.query.user_id,
+        pw: req.query.pw,
       },
     });
-    if(result != null){
-      res.json({result: true});
-    }else{
-      res.json({errMsg: "아이디와 비밀번호가 틀림"});
+    if (result != null) {
+      res.json({ result: true });
+    } else {
+      res.json({ errMsg: "아이디와 비밀번호가 틀림" });
     }
   } catch (error) {
     console.log(error);
@@ -278,7 +301,7 @@ router.post("/sign", async (req, res, next) => {
       pw: req.body.pw,
       email: req.body.email,
     });
-    res.json({ result: true }); 
+    res.json({ result: true });
   } catch (error) {
     console.log(error);
     next(error);
@@ -288,7 +311,7 @@ router.post("/sign", async (req, res, next) => {
 router.get("/id-check", async (req, res, next) => {
   try {
     const result = await User.findAll({
-      where: { user_id: req.body.user_id },
+      where: { user_id: req.query.user_id },
     });
     if (
       typeof result === "object" && // 중복체크
@@ -307,7 +330,7 @@ router.get("/id-check", async (req, res, next) => {
 router.get("/email-check", async (req, res, next) => {
   try {
     const result = await User.findAll({
-      where: { email: req.body.email },
+      where: { email: req.query.email },
     });
     if (
       typeof result === "object" && // 중복체크

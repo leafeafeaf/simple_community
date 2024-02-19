@@ -5,6 +5,7 @@
       <div>댓글순</div>
       <div>조회수순</div>
       <div>추천순</div>
+      <button @click="getContentList">axios</button>
     </div>
     <div class="content-list-div">
       게시글 리스트
@@ -12,7 +13,7 @@
         class="content-list-for"
         v-for="content in contentList"
         :key="content"
-        @click="this.$router.push('content')"
+        @click="this.pushContentDetail(content.content_id)"
       >
         <div class="content-list-detail">
           <div class="content-recom-num">{{ content.recom_num }}</div>
@@ -62,6 +63,9 @@
 <script>
 export default {
   setup() {}, //페이지 생성시 실행되는 코드
+  created() {
+    this.getContentList();
+  },
 
   data() {
     //변수 선언
@@ -97,14 +101,41 @@ export default {
       ],
     };
   },
-  methods() {
+  methods: {
     //함수 설정하는 곳
-    return {
-      //게시글 리스트 불러오기 api
-      getContentList() {
-        return 10;
-      },
-    };
+    //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)
+    getContentList() {
+      this.axios
+        .get("/content/list", {
+          params: {
+            page: 0,
+            sort: null,
+            search: null,
+            search_content: null,
+          },
+        })
+        //정상적으로 응답이 왔을시 실행
+        .then((res) => {
+          this.contentList = res.data;
+        })
+        //비정상,오류 시 실행
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    //게시글 상세 내용으로 페이지 이동
+    pushContentDetail(content_id) {
+      this.$router.push({
+        path: "/content/",
+        name: "content",
+        params: {
+          content_id: content_id,
+        },
+        query: {
+          user_id: "",
+        },
+      });
+    },
   },
 };
 </script>

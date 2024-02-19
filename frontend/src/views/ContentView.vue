@@ -55,6 +55,16 @@
 </template>
 <script>
 export default {
+  setup() {},
+  props: {
+    content_id: {
+      type: Number,
+      default: 8,
+    },
+  },
+  created() {
+    this.getContentDetail(this.content_id);
+  },
   data() {
     return {
       contentDetail: {
@@ -68,6 +78,7 @@ export default {
         comment_num: 6,
         recom_num: 7,
       },
+      is_like: false,
       commentList: [
         {
           comment_id: 1,
@@ -92,6 +103,25 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    getContentDetail(content_id) {
+      this.axios
+        .get("/content/" + content_id, {
+          params: {
+            user_id: this.$user_id,
+          },
+        })
+        //정상적으로 응답이 왔을시 실행
+        .then((res) => {
+          this.contentDetail = res.data.content;
+          this.is_like = res.data.is_like;
+        })
+        //비정상,오류 시 실행
+        .catch((err) => {
+          console.error(err);
+        });
+    },
   },
 };
 </script>
