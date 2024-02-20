@@ -15,3 +15,5 @@ app.use(router).use(axios).mount("#app");
 
 //axios 전역 설정 (전역 변수)  ----> 안하면 axios 쓰는 곳 마다 import해줘야함
 app.config.globalProperties.axios = axios;
+app.config.globalProperties.gid = "민철";
+app.config.globalProperties.gpw = "1234";
