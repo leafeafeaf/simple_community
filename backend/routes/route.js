@@ -91,7 +91,8 @@ router.get("/content/list", async (req, res, next) => {
     if ("page" in req.query) {
       page_num = req.query.page;
     }
-
+    console.log(page_num)
+    console.log();
     if ("sort" in req.query) {
       //sort 키가 있음
       if (req.query.sort == "view") {
@@ -114,7 +115,7 @@ router.get("/content/list", async (req, res, next) => {
     title_search = "";
     writer_search = "";
     if ("search" in req.query) {
-      if (req.query.search == 0) {
+      if (req.query.search != 0) {
         writer_search = req.query.search_content;
       } else {
         title_search = req.query.search_content;

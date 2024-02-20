@@ -1,14 +1,12 @@
 <template>
   <div>
     <div class="sort-div">
-      <div>최신순</div>
-      <div>댓글순</div>
-      <div>조회수순</div>
-      <div>추천순</div>
-      <button @click="getContentList">axios</button>
+      <div @click="getContentList(0, 'late')">최신순</div>
+      <div @click="getContentList(0, 'comment')">댓글순</div>
+      <div @click="getContentList(0, 'view')">조회수순</div>
+      <div @click="getContentList(0, 'recom')">추천순</div>
     </div>
     <div class="content-list-div">
-      게시글 리스트
       <div
         class="content-list-for"
         v-for="content in contentList"
@@ -24,7 +22,7 @@
               <div class="content-comment-num">[{{ content.comment_num }}]</div>
             </div>
             <div class="detail-inform">
-              <div class="content-date">2초전 /</div>
+              <div class="content-date">{{ content.date }} /</div>
               <div class="content-writer">{{ content.writer }}</div>
             </div>
           </div>
@@ -36,7 +34,9 @@
       <button class="write-button">
         <router-link to="/write">글쓰기</router-link>
       </button>
-      <button class="famous-button">인기글</button>
+      <button class="famous-button" @click="getContentList(0, 'famous')">
+        인기글
+      </button>
     </div>
 
     <div class="page-nav">
@@ -51,12 +51,12 @@
     </div>
 
     <div class="search-div">
-      <button>Q</button>
-      <input type="text" name="" id="" />
-      <select name="" id="">
-        <option value="">제목</option>
-        <option value="">작성자</option>
+      <select name="" id="" v-model="this.search_type">
+        <option value="0">제목</option>
+        <option value="1">작성자</option>
       </select>
+      <input type="text" name="" id="" v-model="this.search_text" />
+      <button @click="searchContent">Q</button>
     </div>
   </div>
 </template>
@@ -70,48 +70,25 @@ export default {
   data() {
     //변수 선언
     return {
-      contentList: [
-        {
-          content_id: 1,
-          title: "롤하자",
-          writer: "야민철",
-          date: new Date(),
-          view_num: 5,
-          comment_num: 6,
-          recom_num: 7,
-        },
-        {
-          content_id: 2,
-          title: "롤하자2",
-          writer: "야민철",
-          date: new Date(),
-          view_num: 5,
-          comment_num: 6,
-          recom_num: 7,
-        },
-        {
-          content_id: 3,
-          title: "롤하자3",
-          writer: "야민철",
-          date: new Date(),
-          view_num: 5,
-          comment_num: 6,
-          recom_num: 7,
-        },
-      ],
+      contentList: [], // 게시글 리스트
+      search_text: "", // 검색어 저장
+      search_type: 0, //검색 종류 (0 : 제목, 1 : 작성자)
+      sort_type: "view", //정렬 기준 (page할때 사용할 예정)
     };
   },
   methods: {
     //함수 설정하는 곳
     //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)
-    getContentList() {
+    getContentList(page = 0, sort = "late", search, search_content) {
+      this.sort_type = sort;
+      console.log(search_content);
       this.axios
         .get("/content/list", {
           params: {
-            page: 0,
-            sort: null,
-            search: null,
-            search_content: null,
+            page: page || 0,
+            sort: sort,
+            search: search,
+            search_content: search_content,
           },
         })
         //정상적으로 응답이 왔을시 실행
@@ -135,6 +112,11 @@ export default {
           user_id: "",
         },
       });
+    },
+    //검색
+    searchContent() {
+      console.log(this.search_type);
+      this.getContentList(0, "late", this.search_type, this.search_text);
     },
   },
 };
