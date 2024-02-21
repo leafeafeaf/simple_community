@@ -24,6 +24,7 @@
       <div class="recom">{{ contentDetail.recom_num }}</div>
       <input class="recom-btn" type="button" value="좋아요" />
     </div>
+    <button @click="pushModify">수정</button>
   </div>
   <hr />
   <div>
@@ -121,6 +122,16 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+    },
+    //수정 페이지로 이동
+    pushModify() {
+      alert(this.contentDetail.title);
+      this.$router.push({
+        name: "modify",
+        params: {
+          contentDetail: this.contentDetail,
+        },
+      });
     },
   },
 };

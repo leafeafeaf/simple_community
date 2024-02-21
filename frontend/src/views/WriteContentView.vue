@@ -1,26 +1,70 @@
 <template>
   <div class="write-div">
-    <form class="write" action="" method="">
+    <button @click="test">테스트 용</button>
+    <form class="write" @submit="postContent">
       <div>
-        <input class="title" type="text" placeholder="제목을 입력해 주세요." />
+        <input
+          class="title"
+          type="text"
+          placeholder="제목을 입력해 주세요."
+          v-model="content_body.title"
+        />
       </div>
       <div>
-        <input class="file" type="file" name="" id="" />
+        <input class="file" type="file" @change="onFileChange" />
       </div>
       <div>
-        <textarea class="content" name="" id="" rows="30"></textarea>
+        <textarea
+          class="content"
+          name=""
+          id=""
+          rows="30"
+          v-model="content_body.content"
+        ></textarea>
       </div>
       <div class="btn-div">
-        <button type="submit" class="btn">
-          <router-link to="/content">등록</router-link>
-        </button>
+        <button type="submit" class="btn">등록</button>
         <button class="btn"><router-link to="/">취소</router-link></button>
       </div>
     </form>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      content_body: {
+        writer: this.gid,
+        title: "",
+        content: "",
+        file: new FormData(),
+      },
+    };
+  },
+  methods: {
+    test() {
+      console.log(this.content_body.writer);
+      console.log(this.content_body.title);
+      console.log(this.content_body.content);
+      console.log(this.content_body.file);
+    },
+    //게시글 작성 api 호출
+    postContent() {
+      this.axios
+        .post("/content", this.content_body)
+        .then((res) => {
+          console.log("성공", res);
+        })
+        .catch((res) => {
+          console.error("실패", res);
+        });
+    },
+    onFileChange(file) {
+      console.log(file.target.files[0].name);
+      if (!file) return;
+    },
+  },
+};
 </script>
 <style scoped>
 .write-div {

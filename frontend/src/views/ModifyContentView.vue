@@ -1,26 +1,43 @@
 <template>
   <div class="modify-div">
-    <form class="modify" action="" method="">
+    <button @click="test">테스트 용</button>
+    <form class="modify">
       <div>
         <input class="title" type="text" placeholder="제목을 입력해 주세요." />
       </div>
       <div>
-        <input class="file" type="file" name="" id="" />
+        <input class="file" type="file" />
       </div>
       <div>
         <textarea class="content" name="" id="" rows="30"></textarea>
       </div>
       <div class="btn-div">
-        <button type="submit" class="btn">
-          <router-link to="/content">등록</router-link>
-        </button>
+        <button type="submit" class="btn">등록</button>
         <button class="btn"><router-link to="/">취소</router-link></button>
       </div>
     </form>
   </div>
+  <div>{{ $route.params.contentDetail }}</div>
 </template>
 <script>
-export default {};
+export default {
+  setup() {},
+
+  data() {
+    return {
+      content_body: {},
+    };
+  },
+  methods: {
+    test() {
+      console.log(this.content_body);
+      console.log(this.contentDetail);
+    },
+    //게시글 내용 가져오기 이건 상세 게시글에서 넘겨받아라
+    //게시글 수정 api호출
+    putContent() {},
+  },
+};
 </script>
 <style scoped>
 .modify-div {
