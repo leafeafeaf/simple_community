@@ -5,6 +5,7 @@
       <div @click="getContentList(0, 'comment')">댓글순</div>
       <div @click="getContentList(0, 'view')">조회수순</div>
       <div @click="getContentList(0, 'recom')">추천순</div>
+      <button type="button" @click="test">test</button>
     </div>
     <div class="content-list-div">
       <hr />
@@ -81,11 +82,13 @@ export default {
     };
   },
   methods: {
+    test() {
+      console.log(this.gid);
+    },
     //함수 설정하는 곳
     //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)
     getContentList(page = 0, sort = "late", search, search_content) {
       this.sort_type = sort;
-      console.log(search_content);
       this.axios
         .get("/content/list", {
           params: {

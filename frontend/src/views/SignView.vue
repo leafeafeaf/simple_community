@@ -1,5 +1,5 @@
 <template lang="">
-  <form action="" method="">
+  <div>
     <table class="table">
       <tbody>
         <tr>
@@ -19,8 +19,8 @@
             <div class="info">비밀번호</div>
           </th>
           <td>
-            <input type="password" name="" id="" />
-            <div>비밀번호는 8~60자로 되어야 함</div>
+            <input type="password" name="" id="" v-model="pw" />
+            <div>비밀번호는 4~60자로 되어야 함</div>
           </td>
         </tr>
         <tr>
@@ -28,7 +28,8 @@
             <div class="info">비밀번호 확인</div>
           </th>
           <td>
-            <input type="password" name="" id="" />
+            <input type="password" name="" id="" v-model="pw_ok" />
+            <div>{{ pwCheck }}</div>
           </td>
         </tr>
         <tr>
@@ -46,10 +47,10 @@
       </tbody>
     </table>
     <div class="btn-div">
-      <button type="submit" class="btn">등록</button>
-      <button class="btn"><router-link to="/">취소</router-link></button>
+      <button type="submit" class="btn" @click="postSign">등록</button>
+      <button class="btn"><router-link to="/login">취소</router-link></button>
     </div>
-  </form>
+  </div>
 </template>
 <script>
 export default {
@@ -57,14 +58,24 @@ export default {
     return {
       is_id: false,
       is_email: false,
+      is_pw: false,
       user_id: "",
       email: "",
+      pw: "",
+      pw_ok: "",
     };
   },
   methods: {
     //함수 설정하는 곳
     //백엔드에서 id 중복 체크하기
     getIdCheck() {
+      // 아이디 형식 체크
+      var regType = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{3,20}$/;
+      if (!regType.test(this.user_id)) {
+        alert("아이디 형식이 맞지 않습니다");
+        return;
+      }
+
       this.axios
         .get("/id-check", {
           params: {
@@ -87,16 +98,23 @@ export default {
     },
     //백엔드에서 email 중복 체크하기
     getEmailCheck() {
+      // 이메일 형식 체크
+      var regType = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+$/;
+      if (!regType.test(this.email)) {
+        alert("이메일 형식이 맞지 않습니다");
+        return;
+      }
+
       this.axios
         .get("/email-check", {
           params: {
             email: this.email,
           },
         })
-        //정상적으로 응답이 왔을시 실행, naver.com만 가능
+        //정상적으로 응답이 왔을시 실행
         .then((res) => {
           this.is_email = res.data.result;
-          if (this.is_email == true && this.email.includes("@naver.com")) {
+          if (this.is_email == true) {
             alert("사용가능");
           } else {
             alert("사용불가능");
@@ -106,6 +124,61 @@ export default {
         .catch((err) => {
           console.error(err);
         });
+    },
+    // 등록 시 회원 추가
+    postSign() {
+      // 중복 체크 먼저 해야함
+      if (!this.is_id) {
+        alert("아이디를 확인해주세요");
+        return;
+      }
+      if (!this.is_email) {
+        alert("이메일을 확인해주세요");
+        return;
+      }
+      if (this.pw.length < 4 || this.pw.length > 60) {
+        alert("비밀번호 형식이 올바르지 않아요");
+        return;
+      }
+      if (this.pw != this.pw_ok) {
+        alert("비밀번호 확인이 같지않아요");
+        return;
+      }
+
+      // 정상시 유저 등록
+      this.axios
+        .post("/sign", {
+          user_id: this.user_id,
+          email: this.email,
+          pw: this.pw,
+        })
+        .then((res) => {
+          console.log("성공", res);
+        })
+        .catch((res) => {
+          console.error("실패", res);
+        })
+        .then(() => {
+          this.$router.push({
+            name: "login",
+          });
+        });
+    },
+  },
+  computed: {
+    pwCheck() {
+      if (
+        this.pw.length >= 4 &&
+        this.pw.length <= 60 &&
+        this.pw_ok.length >= 4 &&
+        this.pw_ok.length <= 60
+      ) {
+        if (this.pw != this.pw_ok) {
+          return "두 비밀번호가 같지 않아요";
+        } else {
+          return "같아요";
+        }
+      } else return "";
     },
   },
 };

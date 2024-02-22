@@ -1,6 +1,5 @@
 <template>
   <div class="write-div">
-    <button @click="test">테스트 용</button>
     <div class="write">
       <div>
         <input
@@ -42,9 +41,6 @@ export default {
     };
   },
   methods: {
-    test() {
-      this.postContent();
-    },
     //게시글 작성 api 호출
     postContent() {
       var content_id = 0;

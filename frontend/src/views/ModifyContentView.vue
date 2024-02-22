@@ -1,6 +1,5 @@
 <template>
   <div class="modify-div">
-    <button @click="test">테스트 용</button>
     <form class="modify" @submit="putContent">
       <div>
         <input
@@ -41,9 +40,6 @@ export default {
     };
   },
   methods: {
-    test() {
-      console.log(this.content_body);
-    },
     //게시글 내용 가져오기 이건 상세 게시글에서 넘겨받아라
     //게시글 수정 api호출
     putContent() {
