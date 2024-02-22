@@ -1,5 +1,4 @@
 <template lang="">
-  <div>상세 게시글 화면 입니다.</div>
   <div>
     <div>
       <hr />
@@ -18,13 +17,15 @@
       </div>
     </div>
     <div>
-      <textarea class="content" name="" id="" rows="30">게시글</textarea>
+      <div class="content">{{ contentDetail.content }}</div>
     </div>
     <div class="recom-div">
       <div class="recom">{{ contentDetail.recom_num }}</div>
       <input class="recom-btn" type="button" value="좋아요" />
     </div>
+    <!--(gid가 writer 같을때만 보이고 함수에서도 체크)-->
     <button @click="pushModify">수정</button>
+    <button @click="deleteContent">삭제</button>
   </div>
   <hr />
   <div>
@@ -123,13 +124,30 @@ export default {
           console.error(err);
         });
     },
+    //삭제 api 호출
+    deleteContent() {
+      this.axios
+        .delete("/content/" + this.content_id)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+        .then(() => {
+          this.$router.replace({
+            name: "main",
+          }); //이동인데 뒤로가기 안됨
+        });
+    },
+
     //수정 페이지로 이동
     pushModify() {
-      alert(this.contentDetail.title);
       this.$router.push({
+        //이동인데 뒤로가기 됨
         name: "modify",
         params: {
-          contentDetail: this.contentDetail,
+          contentDetail: JSON.stringify(this.contentDetail),
         },
       });
     },
@@ -156,8 +174,9 @@ export default {
   margin-right: 8px;
 }
 .content {
+  text-align: left;
   width: 100%;
-  resize: none;
+  padding: 20% 30px;
   margin-bottom: 10px;
   border-right: 0px solid black;
   border-left: 0px solid black;

@@ -7,27 +7,31 @@
       <div @click="getContentList(0, 'recom')">추천순</div>
     </div>
     <div class="content-list-div">
-      <div
-        class="content-list-for"
-        v-for="content in contentList"
-        :key="content"
-        @click="this.pushContentDetail(content.content_id)"
-      >
-        <div class="content-list-detail">
-          <div class="content-recom-num">{{ content.recom_num }}</div>
-          <div>|</div>
-          <div>
-            <div class="detail-title">
-              <div class="content-title">{{ content.title }}</div>
-              <div class="content-comment-num">[{{ content.comment_num }}]</div>
-            </div>
-            <div class="detail-inform">
-              <div class="content-date">{{ content.date }} /</div>
-              <div class="content-writer">{{ content.writer }}</div>
+      <hr />
+      <div v-for="content in contentList" :key="content">
+        <div
+          class="content-list-for"
+          @click="this.pushContentDetail(content.content_id)"
+        >
+          <div class="content-list-detail">
+            <div class="content-recom-num">{{ content.recom_num }}</div>
+            <div>|</div>
+            <div>
+              <div class="detail-title">
+                <div class="content-title">{{ content.title }}</div>
+                <div class="content-comment-num">
+                  [{{ content.comment_num }}]
+                </div>
+              </div>
+              <div class="detail-inform">
+                <div class="content-date">{{ content.date }} /</div>
+                <div class="content-writer">{{ content.writer }}</div>
+              </div>
             </div>
           </div>
+          <div class="content-view-num">{{ content.view_num }}</div>
         </div>
-        <div class="content-view-num">{{ content.view_num }}</div>
+        <hr />
       </div>
     </div>
     <div class="down-button-div">
@@ -108,9 +112,6 @@ export default {
         params: {
           content_id: content_id,
         },
-        query: {
-          user_id: "",
-        },
       });
     },
     //검색
@@ -137,15 +138,13 @@ export default {
   margin-left: 5px;
 }
 .content-list-div {
-  background-color: aqua;
-  height: 500px;
 }
 
 .content-list-for {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: blanchedalmond;
+  background-color: rgb(255, 255, 255);
   margin: 5px;
   padding: 0 16px;
 }

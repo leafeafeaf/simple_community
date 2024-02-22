@@ -20,7 +20,7 @@ router.post("/content", async (req, res, next) => {
       writer: req.body.writer,
       title: req.body.title,
       content: req.body.content,
-      file: req.body.file,
+      file: null /*req.body.file*/,
     });
     res.json({ content_id: result.dataValues.content_id });
   } catch (error) {
@@ -83,7 +83,7 @@ router.delete("/content/:content_id", async (req, res, next) => {
 //게시글 리스트 받기
 router.get("/content/list", async (req, res, next) => {
   try {
-    limit_num = 4;
+    limit_num = 10;
     sort_string = "";
     recom_num_search = 0;
     page_num = 0;
@@ -91,7 +91,7 @@ router.get("/content/list", async (req, res, next) => {
     if ("page" in req.query) {
       page_num = req.query.page;
     }
-    console.log(page_num)
+    console.log(page_num);
     console.log();
     if ("sort" in req.query) {
       //sort 키가 있음

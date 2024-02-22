@@ -1,7 +1,7 @@
 <template>
   <div class="write-div">
     <button @click="test">테스트 용</button>
-    <form class="write" @submit="postContent">
+    <div class="write">
       <div>
         <input
           class="title"
@@ -23,10 +23,10 @@
         ></textarea>
       </div>
       <div class="btn-div">
-        <button type="submit" class="btn">등록</button>
+        <button class="btn" @click="postContent">등록</button>
         <button class="btn"><router-link to="/">취소</router-link></button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -43,20 +43,28 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.content_body.writer);
-      console.log(this.content_body.title);
-      console.log(this.content_body.content);
-      console.log(this.content_body.file);
+      this.postContent();
     },
     //게시글 작성 api 호출
     postContent() {
+      var content_id = 0;
       this.axios
         .post("/content", this.content_body)
         .then((res) => {
           console.log("성공", res);
+          content_id = res.data.content_id;
         })
         .catch((res) => {
           console.error("실패", res);
+        })
+        .then(() => {
+          this.$router.push({
+            path: "/content/",
+            name: "content",
+            params: {
+              content_id: content_id,
+            },
+          });
         });
     },
     onFileChange(file) {

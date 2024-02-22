@@ -27,7 +27,7 @@ const routes = [
       import(/* webpackChunkName: "write" */ "../views/WriteContentView.vue"),
   },
   {
-    path: "/modify",
+    path: "/modify/:contentDetail",
     name: "modify",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
