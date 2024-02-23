@@ -25,7 +25,7 @@
                 </div>
               </div>
               <div class="detail-inform">
-                <div class="content-date">{{ content.date }} /</div>
+                <div class="content-date">{{ dateFormat(content.date) }} /</div>
                 <div class="content-writer">{{ content.writer }}</div>
               </div>
             </div>
@@ -85,6 +85,7 @@ export default {
     test() {
       console.log(this.store.state.gid);
     },
+
     //함수 설정하는 곳
     //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)
     getContentList(page = 0, sort = "late", search, search_content) {
@@ -121,6 +122,23 @@ export default {
     searchContent() {
       console.log(this.search_type);
       this.getContentList(0, "late", this.search_type, this.search_text);
+    },
+    //날짜 포맷해주는 함수 2024-02-23T06:45:50.000Z -> 2024-02-23/06:45:50
+    dateFormat(date) {
+      let d = new Date(date);
+      return (
+        d.getFullYear() +
+        "-" +
+        (d.getMonth() + 1) +
+        "-" +
+        d.getDate() +
+        " " +
+        d.getHours() +
+        ":" +
+        d.getMinutes() +
+        ":" +
+        d.getSeconds()
+      );
     },
   },
 };

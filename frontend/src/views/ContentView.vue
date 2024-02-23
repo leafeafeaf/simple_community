@@ -4,7 +4,7 @@
       <hr />
       <div class="title-div">
         <div>{{ contentDetail.title }}</div>
-        <div>{{ contentDetail.date }}</div>
+        <div>{{ dateFormat(contentDetail.date) }}</div>
       </div>
       <hr />
       <div class="writer-div">
@@ -21,7 +21,9 @@
     </div>
     <div class="recom-div">
       <div class="recom">{{ contentDetail.recom_num }}</div>
-      <input class="recom-btn" type="button" value="좋아요" />
+      <button class="recom-btn" @click="postRecomandation">
+        {{ recom_text }}
+      </button>
     </div>
     <!--(gid가 writer 같을때만 보이고 함수에서도 체크)-->
     <button @click="pushModify" v-if="isGid">수정</button>
@@ -33,7 +35,7 @@
       <div v-for="(comment, index) in commentList" :key="comment">
         <div class="comment-writer-div">
           <div class="comment-writer">{{ comment.writer }}</div>
-          <div class="comment-date">{{ comment.date }}</div>
+          <div class="comment-date">{{ dateFormat(comment.date) }}</div>
         </div>
         <div class="comment-content-div">
           <div class="comment-content">{{ comment.content }}</div>
@@ -97,11 +99,12 @@ export default {
       this.axios
         .get("/content/" + content_id, {
           params: {
-            user_id: this.$user_id,
+            user_id: this.store.state.gid,
           },
         })
         //정상적으로 응답이 왔을시 실행
         .then((res) => {
+          console.log(res.data);
           this.contentDetail = res.data.content;
           this.is_like = res.data.is_like;
         })
@@ -130,7 +133,6 @@ export default {
           }); //이동인데 뒤로가기 안됨
         });
     },
-
     //수정 페이지로 이동
     pushModify() {
       if (this.store.state.gid == this.contentDetail.writer) {
@@ -200,12 +202,57 @@ export default {
           console.log(err);
         });
     },
+    //댓글 작성자와 현재 접속 id 같은지 유무
     equlCommentWriter(writer) {
       if (this.store.state.gid == writer) {
         return true;
       } else {
         return false;
       }
+    },
+
+    //추천 기능
+    postRecomandation() {
+      //is_like가 false고 gid가 없어 그러면 로그인 화면으로 ->
+      //로그인은 함
+      //is_like가 false 그러면 추천
+      //is_like가 true 그러면 추천 취소
+      if (!this.store.state.gid) {
+        alert("추천은 로그인한 사용자만 가능합니다");
+        return;
+      }
+      this.axios
+        .post("/like/" + this.contentDetail.content_id, {
+          writer: this.store.state.gid,
+          is_like: this.is_like ? 1 : 0,
+        })
+        .then((res) => {
+          console.log(res);
+          this.is_like = res.data.is_like;
+          if (this.is_like) this.contentDetail.recom_num++;
+          else this.contentDetail.recom_num--;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+
+    //날짜 포맷해주는 함수 2024-02-23T06:45:50.000Z -> 2024-02-23/06:45:50
+    dateFormat(date) {
+      let d = new Date(date);
+      return (
+        d.getFullYear() +
+        "-" +
+        (d.getMonth() + 1) +
+        "-" +
+        d.getDate() +
+        " " +
+        d.getHours() +
+        ":" +
+        d.getMinutes() +
+        ":" +
+        d.getSeconds()
+      );
     },
   },
   computed: {
@@ -214,6 +261,13 @@ export default {
         return true;
       } else {
         return false;
+      }
+    },
+    recom_text() {
+      if (this.is_like) {
+        return "추천 취소";
+      } else {
+        return "추천";
       }
     },
   },
