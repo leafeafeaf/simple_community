@@ -2,9 +2,9 @@
   <div class="topbar-div">
     <div class="left-div">
       <router-link to="/" class="logo">Ya민철</router-link>
-      <button type="button" @click="test">test</button>
     </div>
-    <div class="gid-div" v-if="isLogin">{{ this.gid }}</div>
+
+    <div class="gid-div" v-if="isLogin" @click="logout">{{ gid }}</div>
     <div class="right-div" v-else>
       <div class="login-div"><router-link to="/login">로그인</router-link></div>
       <div class="sign-div"><router-link to="/sign">회원가입</router-link></div>
@@ -14,15 +14,20 @@
 <script>
 export default {
   methods: {
-    test() {
-      console.log(this.gid);
+    logout() {
+      this.store.commit("setGid", { user_id: null });
     },
   },
   computed: {
     isLogin() {
-      if (this.gid) {
+      if (this.store.state.gid) {
         return true;
       } else return false;
+    },
+    gid() {
+      if (this.store.state.gid) {
+        return this.store.state.gid;
+      } else return "";
     },
   },
 };
@@ -35,6 +40,7 @@ a {
 .topbar-div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   background-color: rgb(181, 215, 245);
   padding: 10px;
 }

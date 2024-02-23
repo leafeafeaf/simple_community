@@ -38,9 +38,9 @@ export default {
         //정상적으로 응답이 왔을시 실행
         .then((res) => {
           if (res.data.result) {
-            this.gid = this.user_id;
-            console.log(this.gid);
-            //this.$router.go(-1);
+            this.store.commit("setGid", { user_id: this.user_id });
+            console.log(this.store.state.gid);
+            this.$router.go(-1);
           } else {
             alert(res.data.errMsg);
           }

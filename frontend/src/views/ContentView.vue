@@ -24,8 +24,8 @@
       <input class="recom-btn" type="button" value="좋아요" />
     </div>
     <!--(gid가 writer 같을때만 보이고 함수에서도 체크)-->
-    <button @click="pushModify">수정</button>
-    <button @click="deleteContent">삭제</button>
+    <button @click="pushModify" v-if="isGid">수정</button>
+    <button @click="deleteContent" v-if="isGid">삭제</button>
   </div>
   <hr />
   <div>
@@ -69,17 +69,7 @@ export default {
   },
   data() {
     return {
-      contentDetail: {
-        content_id: 1,
-        title: "롤 하자",
-        writer: "야민철",
-        content: "롤좀하자 야성민",
-        file: "1.jpg",
-        date: new Date(),
-        view_num: 5,
-        comment_num: 6,
-        recom_num: 7,
-      },
+      contentDetail: {},
       is_like: false,
       commentList: [
         {
@@ -150,6 +140,15 @@ export default {
           contentDetail: JSON.stringify(this.contentDetail),
         },
       });
+    },
+  },
+  computed: {
+    isGid() {
+      if (this.store.state.gid == this.contentDetail.writer) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };

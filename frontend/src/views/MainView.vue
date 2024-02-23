@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     test() {
-      console.log(this.gid);
+      console.log(this.store.state.gid);
     },
     //함수 설정하는 곳
     //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)

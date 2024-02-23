@@ -33,7 +33,7 @@ export default {
   data() {
     return {
       content_body: {
-        writer: this.gid,
+        writer: this.store.state.gid,
         title: "",
         content: "",
         file: new FormData(),

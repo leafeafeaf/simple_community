@@ -2,14 +2,6 @@
   <div class="wrapper">
     <TopBar class="topbar" />
     <router-view />
-    <nav>
-      <router-link to="/">main</router-link> |
-      <router-link to="/write">작성</router-link> |
-      <router-link to="/modify">수정</router-link> |
-      <router-link to="/content">게시글 보기</router-link> |
-      <router-link to="/login">로그인</router-link> |
-      <router-link to="/sign">회원가입</router-link>
-    </nav>
   </div>
 </template>
 <script>
