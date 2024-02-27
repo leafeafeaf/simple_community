@@ -5,9 +5,6 @@
       <div @click="getContentList(0, 'comment')">댓글순</div>
       <div @click="getContentList(0, 'view')">조회수순</div>
       <div @click="getContentList(0, 'recom')">추천순</div>
-      <button type="button" @click="test">test</button>
-      <div>{{ content_count }}</div>
-      <div>{{ page_count }}</div>
     </div>
     <div class="content-list-div">
       <hr />
@@ -37,6 +34,7 @@
         <hr />
       </div>
     </div>
+    <div class="page-div">{{ curr_page }}/{{ page_count }}</div>
     <div class="down-button-div">
       <button class="write-button" @click="pushWrite">글쓰기</button>
       <button class="famous-button" @click="getContentList(0, 'famous')">
@@ -45,11 +43,12 @@
     </div>
 
     <div class="page-nav">
-      <span
+      <button
         class="nav-btn"
         @click="getContentList(0, sort_type, search_type, search_text)"
-        >처음</span
       >
+        처음
+      </button>
       <button
         class="nav-btn"
         @click="
@@ -59,7 +58,11 @@
       >
         이전
       </button>
-      <div v-for="page in pagingNavigation" :key="page">
+      <div
+        v-for="page in pagingNavigation"
+        :key="page"
+        :class="{ curr: isCurrPage(page) }"
+      >
         <span
           class="page-num"
           @click="getContentList(page - 1, sort_type, search_type, search_text)"
@@ -73,21 +76,27 @@
       >
         다음
       </button>
-      <span
+      <button
         class="nav-btn"
         @click="
           getContentList(page_count - 1, sort_type, search_type, search_text)
         "
-        >끝</span
       >
+        끝
+      </button>
     </div>
     <div class="search-div">
-      <select name="" id="" v-model="this.search_type">
+      <select class="search-select" name="" id="" v-model="this.search_type">
         <option value="0">제목</option>
         <option value="1">작성자</option>
       </select>
-      <input type="text" name="" id="" v-model="this.search_text" />
-      <button @click="searchContent">Q</button>
+      <input
+        type="text"
+        name=""
+        class="search-text"
+        v-model="this.search_text"
+      />
+      <button class="search-btn" @click="searchContent">검색</button>
     </div>
   </div>
 </template>
@@ -116,8 +125,9 @@ export default {
     };
   },
   methods: {
-    test() {
-      console.log(this.store.state.gid);
+    isCurrPage(page) {
+      if (page == this.curr_page) return true;
+      else return false;
     },
 
     //함수 설정하는 곳
@@ -227,19 +237,22 @@ export default {
 <style>
 .sort-div {
   display: flex;
-  padding: 5px;
-  background: #f3f3e4;
+  padding: 10px;
+  background: #e6f8ff;
   border: 0px solid black;
   border-radius: 6px;
   box-shadow: 0.1px 0.1px 0px 0.8px;
   margin-bottom: 5px;
 }
 .sort-div div {
-  text-decoration: underline;
-  color: blue;
-  margin-left: 5px;
+  color: black;
+  margin-left: 10px;
+}
+.sort-div div:hover {
+  font-weight: bold;
 }
 .content-list-div {
+  margin: 5px;
 }
 
 .content-list-for {
@@ -247,15 +260,15 @@ export default {
   justify-content: space-between;
   align-items: center;
   background-color: rgb(255, 255, 255);
-  margin: 5px;
-  padding: 0 16px;
+  margin: 0 18px;
+  padding: 0 10px;
 }
 .content-list-detail {
   display: flex;
   align-items: center;
 }
 .content-list-detail > div {
-  margin: 8px;
+  margin: 4px;
 }
 .detail-title {
   display: flex;
@@ -263,15 +276,16 @@ export default {
 }
 .detail-inform {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
 }
 .content-writer {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .content-title {
   color: blue;
-  margin-right: 8px;
+  margin-right: 12px;
+  margin-left: 4px;
 }
 
 .content-title:hover {
@@ -283,6 +297,8 @@ export default {
   margin-right: 8px;
 }
 .content-recom-num {
+  font-size: 20px;
+  padding-right: 18px;
 }
 .content-comment-num {
   color: blue;
@@ -290,27 +306,73 @@ export default {
 .content-view-num {
 }
 
+.page-div {
+  font-size: 18px;
+  color: #aaaaaa;
+  padding-right: 12px;
+}
 .down-button-div {
   display: flex;
   justify-content: space-between;
 }
 .write-button {
+  background-color: transparent;
+  font-size: 16px;
+  padding: 10px 20px;
 }
 .famous-button {
+  background-color: transparent;
+  font-size: 16px;
+  padding: 10px 20px;
 }
 .page-nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 10px 0;
 }
-.page-nav span {
-  margin-left: 6px;
+
+.page-nav * {
+  margin-left: 10px;
+  font-size: 16px;
+}
+.page-nav div {
   font-weight: bold;
+}
+.page-nav button {
+  background-color: transparent;
+  padding: 5px 12px;
 }
 .page-num {
   text-decoration: underline;
 }
+.curr {
+  color: blue;
+}
 
 .search-div {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+
+.search-select {
+  width: 10%;
+  padding: 3px 10px;
+  font-size: 16px;
+}
+
+.search-text {
+  width: 75%;
+  height: 35px;
+  padding: 3px 18px;
+  font-size: 14px;
+}
+
+.search-btn {
+  width: 10%;
+  padding: 0 10px;
+  background-color: rgb(250, 250, 250);
 }
 </style>

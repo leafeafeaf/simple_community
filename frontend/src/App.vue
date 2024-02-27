@@ -24,23 +24,13 @@ export default {
   display: flex;
   justify-content: center;
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  margin: 0;
 }
 .topbar {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .wrapper {
-  width: 814px;
+  width: 916px;
 }
 </style>
