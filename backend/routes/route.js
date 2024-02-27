@@ -6,6 +6,7 @@ const path = require("path");
 const multer = require("multer"); //파일 관련 미들웨어
 const fs = require("fs");
 
+// 이미지 업로드
 const upload = multer({
   //파일 설정 (저장 장소, 파일명, 파일크기 및 개수)
   storage: multer.diskStorage({
@@ -13,6 +14,9 @@ const upload = multer({
       done(null, "public/");
     },
     filename(req, file, done) {
+      file.originalname = Buffer.from(file.originalname, "ascii").toString(
+        "utf8"
+      );
       const ext = path.extname(file.originalname);
       done(null, path.basename(file.originalname, ext) + Date.now() + ext);
     },
@@ -89,6 +93,11 @@ router.delete("/content/:content_id", async (req, res, next) => {
       },
     });
     if (result === 1) {
+      // 이미지 파일 삭제
+      if (fs.existsSync("public/" + req.query.file)) {
+        fs.unlinkSync("public/" + req.query.file);
+        console.log("image delete");
+      }
       res.json({ result: true });
     } else {
       res.json({ result: false });
@@ -261,7 +270,7 @@ router.delete("/comment/:comment_id", async (req, res, next) => {
     next(error);
   }
 });
-
+// 좋아요
 router.post("/like/:content_id", async (req, res, next) => {
   try {
     if (req.body.is_like == 0) {
