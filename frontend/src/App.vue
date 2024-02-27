@@ -32,5 +32,6 @@ body {
 }
 .wrapper {
   width: 916px;
+  background-color: rgb(253, 254, 255);
 }
 </style>

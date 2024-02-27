@@ -77,6 +77,9 @@ export default {
 };
 </script>
 <style scoped>
+button {
+  background-color: aliceblue;
+}
 .write-div {
   display: flex;
   justify-content: center;
@@ -86,18 +89,19 @@ export default {
 }
 .title {
   width: 100%;
-  height: 30px;
+  padding: 15px 0px 15px 15px;
   margin-bottom: 10px;
 }
 .file {
   width: 100%;
   margin-bottom: 10px;
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding: 15px 0px 15px 15px;
+  background-color: white;
   border: 1px solid rgb(197, 167, 167);
 }
 .content {
   width: 100%;
+  padding: 15px 0px 15px 15px;
   resize: none;
   margin-bottom: 10px;
 }
@@ -110,7 +114,8 @@ export default {
 .btn {
   width: 15%;
   padding: 5px;
-  margin: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
   font-weight: bold;
 }
 </style>

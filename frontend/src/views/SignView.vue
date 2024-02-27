@@ -1,5 +1,5 @@
 <template lang="">
-  <div>
+  <div class="sign-div">
     <table class="table">
       <tbody>
         <tr>
@@ -7,9 +7,20 @@
             <div class="info">아이디</div>
           </th>
           <td>
-            <div>
-              <input type="text" name="" id="" v-model="user_id" />
-              <input type="button" value="중복체크" @click="getIdCheck" />
+            <div class="id-div">
+              <input
+                type="text"
+                name=""
+                id=""
+                v-model="user_id"
+                class="table-input"
+              />
+              <input
+                type="button"
+                value="중복체크"
+                @click="getIdCheck"
+                class="table-btn"
+              />
             </div>
             <div>3~20자리 사이의 영문과 숫자로 이루어져야 함</div>
           </td>
@@ -19,7 +30,13 @@
             <div class="info">비밀번호</div>
           </th>
           <td>
-            <input type="password" name="" id="" v-model="pw" />
+            <input
+              type="password"
+              name=""
+              id=""
+              v-model="pw"
+              class="table-input"
+            />
             <div>비밀번호는 4~60자로 되어야 함</div>
           </td>
         </tr>
@@ -28,7 +45,13 @@
             <div class="info">비밀번호 확인</div>
           </th>
           <td>
-            <input type="password" name="" id="" v-model="pw_ok" />
+            <input
+              type="password"
+              name=""
+              id=""
+              v-model="pw_ok"
+              class="table-input"
+            />
             <div>{{ pwCheck }}</div>
           </td>
         </tr>
@@ -37,9 +60,20 @@
             <div class="info">이메일 주소</div>
           </th>
           <td>
-            <div>
-              <input type="email" name="" id="" v-model="email" />
-              <input type="button" value="중복체크" @click="getEmailCheck" />
+            <div class="id-div">
+              <input
+                type="email"
+                name=""
+                id=""
+                v-model="email"
+                class="table-input"
+              />
+              <input
+                type="button"
+                value="중복체크"
+                @click="getEmailCheck"
+                class="table-btn"
+              />
             </div>
             <div>naver.com 메일 주소만 가입 가능함</div>
           </td>
@@ -188,7 +222,10 @@ a {
   text-decoration-line: none;
   color: black;
 }
-
+.sign-div {
+  display: flex;
+  flex-direction: column;
+}
 input {
   width: 200px;
 }
@@ -205,6 +242,20 @@ input {
 .table td {
   padding: 10px 10px 10px;
   text-align: left;
+}
+.id-div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+}
+.table-input {
+  width: 70%;
+  padding: 7px;
+  margin-right: 8px;
+}
+.table-btn {
+  width: 20%;
+  text-align: center;
 }
 .table-row {
   background-color: #e7dede;

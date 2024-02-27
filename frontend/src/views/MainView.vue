@@ -259,7 +259,6 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(255, 255, 255);
   margin: 0 18px;
   padding: 0 10px;
 }

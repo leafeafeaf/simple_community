@@ -3,12 +3,12 @@
     <div>
       <hr />
       <div class="title-div">
-        <div>{{ contentDetail.title }}</div>
+        <div class="title">{{ contentDetail.title }}</div>
         <div>{{ dateFormat(contentDetail.date) }}</div>
       </div>
       <hr />
       <div class="writer-div">
-        <div>{{ contentDetail.writer }}</div>
+        <div>작성자:{{ contentDetail.writer }}</div>
         <div class="viewnum-div">
           <div>조회 수 : {{ contentDetail.view_num }}</div>
           <div>추천 수 : {{ contentDetail.recom_num }}</div>
@@ -25,6 +25,7 @@
         >
       </div>
     </div>
+    <hr />
     <div>
       <div class="content">{{ contentDetail.content }}</div>
     </div>
@@ -35,8 +36,10 @@
       </button>
     </div>
     <!--(gid가 writer 같을때만 보이고 함수에서도 체크)-->
-    <button @click="pushModify" v-if="isGid">수정</button>
-    <button @click="deleteContent" v-if="isGid">삭제</button>
+    <div class="btn-div">
+      <button @click="pushModify" v-if="isGid">수정</button>
+      <button @click="deleteContent" v-if="isGid">삭제</button>
+    </div>
   </div>
   <hr />
   <div>
@@ -59,7 +62,6 @@
         <hr />
       </div>
     </div>
-    <div>댓글 번호</div>
     <div>
       <div class="comment-write">댓글 쓰기</div>
       <div class="comment-post">
@@ -68,7 +70,6 @@
           name=""
           id=""
           cols="1"
-          rows="3"
           v-model="comment_content"
         ></textarea>
         <input
@@ -301,7 +302,11 @@ export default {
 .title-div {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin: 8px;
+}
+.title {
+  font-size: 20px;
 }
 .writer-div {
   display: flex;
@@ -326,7 +331,7 @@ export default {
 .content {
   text-align: left;
   width: 100%;
-  padding: 20% 30px;
+  padding: 28% 3px 19% 0;
   margin-bottom: 10px;
   border-right: 0px solid black;
   border-left: 0px solid black;
@@ -350,9 +355,20 @@ export default {
 }
 .recom-btn {
   margin: 16px 0px;
-  width: 100px;
+  padding: 10px 30px;
+  background-color: transparent;
+  font-size: 16px;
 }
-
+.btn-div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.btn-div button {
+  background-color: rgb(251, 251, 251);
+  padding: 8px 25px;
+  margin: 5px;
+}
 .comment-writer-div {
   display: flex;
   justify-content: space-between;
@@ -385,5 +401,11 @@ export default {
   padding: 5px;
 }
 .comment-btn {
+}
+
+.comment-delete {
+  background-color: rgb(236, 236, 236);
+  padding: 3px 6px;
+  border-radius: 6px;
 }
 </style>
