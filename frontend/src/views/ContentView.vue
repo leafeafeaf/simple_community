@@ -124,12 +124,16 @@ export default {
     },
     // 게시글 삭제 api 호출
     deleteContent() {
-      if (this.store.state.gid == this.contentDetail.writer) {
+      if (this.store.state.gid != this.contentDetail.writer) {
         alert("작성한 사용자만 삭제할 수 있습니다.");
         return;
       }
       this.axios
-        .delete("/content/" + this.content_id)
+        .delete("/content/" + this.content_id, {
+          params: {
+            file: this.contentDetail.file,
+          },
+        })
         .then((res) => {
           console.log(res);
         })
@@ -144,7 +148,7 @@ export default {
     },
     //수정 페이지로 이동
     pushModify() {
-      if (this.store.state.gid == this.contentDetail.writer) {
+      if (this.store.state.gid != this.contentDetail.writer) {
         alert("작성한 사용자만 수정할 수 있습니다.");
         return;
       }
