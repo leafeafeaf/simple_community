@@ -6,6 +6,8 @@
       <div @click="getContentList(0, 'view')">조회수순</div>
       <div @click="getContentList(0, 'recom')">추천순</div>
       <button type="button" @click="test">test</button>
+      <div>{{ content_count }}</div>
+      <div>{{ page_count }}</div>
     </div>
     <div class="content-list-div">
       <hr />
@@ -36,25 +38,49 @@
       </div>
     </div>
     <div class="down-button-div">
-      <button class="write-button">
-        <router-link to="/write">글쓰기</router-link>
-      </button>
+      <button class="write-button" @click="pushWrite">글쓰기</button>
       <button class="famous-button" @click="getContentList(0, 'famous')">
         인기글
       </button>
     </div>
 
     <div class="page-nav">
-      <span>&lt;&lt;</span>
-      <span>&lt;</span>
-      <span class="page-num">1</span>
-      <span class="page-num">2</span>
-      <span>...</span>
-      <span class="page-num">100</span>
-      <span>></span>
-      <span>>></span>
+      <span
+        class="nav-btn"
+        @click="getContentList(0, sort_type, search_type, search_text)"
+        >처음</span
+      >
+      <button
+        class="nav-btn"
+        @click="
+          getContentList(curr_page - 2, sort_type, search_type, search_text)
+        "
+        :disabled="prevDisable"
+      >
+        이전
+      </button>
+      <div v-for="page in pagingNavigation" :key="page">
+        <span
+          class="page-num"
+          @click="getContentList(page - 1, sort_type, search_type, search_text)"
+          >{{ page }}</span
+        >
+      </div>
+      <button
+        class="nav-btn"
+        @click="getContentList(curr_page, sort_type, search_type, search_text)"
+        v-bind:disabled="nextDisable"
+      >
+        다음
+      </button>
+      <span
+        class="nav-btn"
+        @click="
+          getContentList(page_count - 1, sort_type, search_type, search_text)
+        "
+        >끝</span
+      >
     </div>
-
     <div class="search-div">
       <select name="" id="" v-model="this.search_type">
         <option value="0">제목</option>
@@ -69,7 +95,12 @@
 export default {
   setup() {}, //페이지 생성시 실행되는 코드
   created() {
-    this.getContentList();
+    this.getContentList(
+      this.curr_page - 1,
+      this.sort_type,
+      this.search_type,
+      this.search_text
+    );
   },
 
   data() {
@@ -78,7 +109,10 @@ export default {
       contentList: [], // 게시글 리스트
       search_text: "", // 검색어 저장
       search_type: 0, //검색 종류 (0 : 제목, 1 : 작성자)
-      sort_type: "view", //정렬 기준 (page할때 사용할 예정)
+      sort_type: "late", //정렬 기준 (page할때 사용할 예정)\
+      content_count: 0,
+      page_count: 0,
+      curr_page: 1,
     };
   },
   methods: {
@@ -89,7 +123,11 @@ export default {
     //함수 설정하는 곳
     //백엔드에서 게시글 리스트 들고 오기 //미완(페이지, 정렬, 검색, 검색어 매개변수 추가)
     getContentList(page = 0, sort = "late", search, search_content) {
+      console.log(page + " " + sort + " " + search + " " + search_content);
+
+      this.curr_page = page + 1;
       this.sort_type = sort;
+
       this.axios
         .get("/content/list", {
           params: {
@@ -101,7 +139,9 @@ export default {
         })
         //정상적으로 응답이 왔을시 실행
         .then((res) => {
-          this.contentList = res.data;
+          this.contentList = res.data.rows;
+          this.content_count = res.data.count;
+          this.page_count = Math.ceil(this.content_count / 30);
         })
         //비정상,오류 시 실행
         .catch((err) => {
@@ -117,6 +157,19 @@ export default {
           content_id: content_id,
         },
       });
+    },
+    //글쓰기 버튼 클릭시 로그인상태면 글쓰기 페이지로 -> 아니면 로그인 페이지로
+    pushWrite() {
+      if (!this.store.state.gid) {
+        alert("로그인이 필요한 기능입니다.");
+        this.$router.push({
+          name: "login",
+        });
+      } else {
+        this.$router.push({
+          name: "write",
+        });
+      }
     },
     //검색
     searchContent() {
@@ -139,6 +192,34 @@ export default {
         ":" +
         d.getSeconds()
       );
+    },
+  },
+  computed: {
+    pagingNavigation: function () {
+      let pagearr = [];
+      let start_page = this.curr_page - 1 < 2 ? 1 : this.curr_page - 2;
+      let end_page =
+        this.page_count - this.curr_page < 2
+          ? this.page_count
+          : this.curr_page + 2;
+      for (let i = start_page; i <= end_page; i++) {
+        pagearr.push(i);
+      }
+      return pagearr;
+    },
+    prevDisable() {
+      if (this.curr_page == 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+    nextDisable() {
+      if (this.curr_page == this.page_count) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
@@ -218,6 +299,9 @@ export default {
 .famous-button {
 }
 .page-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .page-nav span {
   margin-left: 6px;

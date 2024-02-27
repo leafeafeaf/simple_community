@@ -15,6 +15,15 @@
           <div>댓글 : {{ contentDetail.comment_num }}</div>
         </div>
       </div>
+      <div class="file-div">
+        <div>파일:</div>
+        <!--<button id="sceneName" @click="saveBtn">버튼</button>-->
+        <a
+          :href="`http://localhost:3030/files/${contentDetail.file}`"
+          download
+          >{{ contentDetail.file }}</a
+        >
+      </div>
     </div>
     <div>
       <div class="content">{{ contentDetail.content }}</div>
@@ -254,6 +263,17 @@ export default {
         d.getSeconds()
       );
     },
+
+    saveBtn() {
+      try {
+        let element = document.createElement("a");
+        element.setAttribute("href", "localhost:3030/download");
+        element.setAttribute("download", this.contentDetail.file);
+        element.click();
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   computed: {
     isGid() {
@@ -291,6 +311,13 @@ export default {
 }
 .viewnum-div > div {
   margin-right: 8px;
+}
+
+.file-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
 }
 .content {
   text-align: left;

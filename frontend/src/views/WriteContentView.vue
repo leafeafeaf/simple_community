@@ -6,11 +6,11 @@
           class="title"
           type="text"
           placeholder="제목을 입력해 주세요."
-          v-model="content_body.title"
+          v-model="title"
         />
       </div>
       <div>
-        <input class="file" type="file" @change="onFileChange" />
+        <input class="file" type="file" id="file" />
       </div>
       <div>
         <textarea
@@ -18,7 +18,7 @@
           name=""
           id=""
           rows="30"
-          v-model="content_body.content"
+          v-model="content"
         ></textarea>
       </div>
       <div class="btn-div">
@@ -32,10 +32,10 @@
 export default {
   data() {
     return {
+      title: "",
+      content: "",
+      writer: this.store.state.gid,
       content_body: {
-        writer: this.store.state.gid,
-        title: "",
-        content: "",
         file: new FormData(),
       },
     };
@@ -43,17 +43,23 @@ export default {
   methods: {
     //게시글 작성 api 호출
     postContent() {
+      var frm = new FormData();
+      var f = document.getElementById("file");
+      console.log(f.files[0]);
+      frm.append("title", this.title);
+      frm.append("content", this.content);
+      frm.append("writer", this.writer);
+      frm.append("file", f.files[0]);
       var content_id = 0;
       this.axios
-        .post("/content", this.content_body)
+        .post("/content", frm, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res) => {
           console.log("성공", res);
           content_id = res.data.content_id;
-        })
-        .catch((res) => {
-          console.error("실패", res);
-        })
-        .then(() => {
           this.$router.push({
             path: "/content/",
             name: "content",
@@ -61,11 +67,11 @@ export default {
               content_id: content_id,
             },
           });
-        });
-    },
-    onFileChange(file) {
-      console.log(file.target.files[0].name);
-      if (!file) return;
+        })
+        .catch((res) => {
+          console.error("실패", res);
+        })
+        .then(() => {});
     },
   },
 };

@@ -5,7 +5,7 @@ const routes = [
   {
     path: "/",
     name: "main",
-    component: MainView,
+    component: MainView, //이동할 페이지, 정렬 방법, 검색어, 검색방법들을 쿼리로 받는다
   },
   {
     path: "/content/:content_id",

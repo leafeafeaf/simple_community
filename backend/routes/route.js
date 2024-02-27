@@ -2,6 +2,23 @@ const express = require("express");
 const { Op } = require("sequelize");
 const router = express.Router();
 const { Content, User, Comment, Recommendation } = require("../models");
+const path = require("path");
+const multer = require("multer"); //파일 관련 미들웨어
+const fs = require("fs");
+
+const upload = multer({
+  //파일 설정 (저장 장소, 파일명, 파일크기 및 개수)
+  storage: multer.diskStorage({
+    destination(req, file, done) {
+      done(null, "public/");
+    },
+    filename(req, file, done) {
+      const ext = path.extname(file.originalname);
+      done(null, path.basename(file.originalname, ext) + Date.now() + ext);
+    },
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
 
 router.get("/", async (req, res, next) => {
   try {
@@ -14,13 +31,14 @@ router.get("/", async (req, res, next) => {
 });
 
 //게시글 작성
-router.post("/content", async (req, res, next) => {
+router.post("/content", upload.single("file"), async (req, res, next) => {
   try {
+    let file = req.file ? req.file.filename : null;
     const result = await Content.create({
       writer: req.body.writer,
       title: req.body.title,
       content: req.body.content,
-      file: null /*req.body.file*/,
+      file: file,
     });
     res.json({ content_id: result.dataValues.content_id });
   } catch (error) {
@@ -83,7 +101,7 @@ router.delete("/content/:content_id", async (req, res, next) => {
 //게시글 리스트 받기
 router.get("/content/list", async (req, res, next) => {
   try {
-    limit_num = 10;
+    limit_num = 30;
     sort_string = "";
     recom_num_search = 0;
     page_num = 0;
@@ -111,7 +129,7 @@ router.get("/content/list", async (req, res, next) => {
       sort_string = "date";
     }
     //0인지 1인지 구분
-    //req.body.search가 1이면 title 검색 0이면 writer 검색
+    //req.body.search가 0이면 title 검색 1이면 writer 검색
     title_search = "";
     writer_search = "";
     if ("search" in req.query) {
@@ -122,7 +140,7 @@ router.get("/content/list", async (req, res, next) => {
       }
     }
 
-    const result = await Content.findAll({
+    const result = await Content.findAndCountAll({
       attributes: [
         "content_id",
         "title",
@@ -145,7 +163,11 @@ router.get("/content/list", async (req, res, next) => {
         writer: { [Op.like]: "%" + writer_search + "%" },
       },
     });
+    //위에 코드는 남겨두고 select count(*) from 테이블 게시글 개수를 넘겨준다
+    //위에 코드를 변경한다 select * from 검색만
+    //게시글 개수 가져오기
 
+    //postman 걸린 시간 --> 테스트해서 어느게 좀 짧게 걸리는지
     res.json(result);
   } catch (error) {
     console.log(error);
