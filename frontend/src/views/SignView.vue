@@ -75,7 +75,6 @@
                 class="table-btn"
               />
             </div>
-            <div>naver.com 메일 주소만 가입 가능함</div>
           </td>
         </tr>
       </tbody>
@@ -133,7 +132,7 @@ export default {
     //백엔드에서 email 중복 체크하기
     getEmailCheck() {
       // 이메일 형식 체크
-      var regType = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+$/;
+      var regType = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
       if (!regType.test(this.email)) {
         alert("이메일 형식이 맞지 않습니다");
         return;

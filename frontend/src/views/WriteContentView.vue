@@ -45,9 +45,10 @@ export default {
     postContent() {
       var frm = new FormData();
       var f = document.getElementById("file");
+
       console.log(f.files[0]);
       frm.append("title", this.title);
-      frm.append("content", this.content);
+      frm.append("content", this.content.replaceAll(/(?:\r\n|\r|\n)/g, "<br>"));
       frm.append("writer", this.writer);
       frm.append("file", f.files[0]);
       var content_id = 0;

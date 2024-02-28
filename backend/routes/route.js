@@ -24,14 +24,8 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-router.get("/", async (req, res, next) => {
-  try {
-    const a = await Recommendation.findAll();
-    res.json(a);
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
+router.get("/", (req, res, next) => {
+  res.sendFile(path.join(__dirname, "../fe", "index.html"));
 });
 
 //게시글 작성

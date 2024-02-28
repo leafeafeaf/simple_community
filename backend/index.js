@@ -29,6 +29,10 @@ app.use("/files", express.static(path.join(__dirname, "public"), {
         res.set('Content-Disposition', "attachment")
     }
 })); //public폴더 정적파일화
+
+//미들웨어 설정
+app.use("/", express.static(path.join(__dirname, "fe"))); //public폴더 정적파일화
+
 app.use(
   morgan("dev"),
   express.json(), //요청 바디 json 해석하기 위한 미들웨어

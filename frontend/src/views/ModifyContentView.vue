@@ -34,15 +34,27 @@ export default {
   created() {
     console.log(this.$route.params.contentDetail);
   },
+  mounted() {
+    this.content_body.content = this.content_body.content.replaceAll(
+      "<br>",
+      "\r\n"
+    );
+  },
+
   data() {
+    var content_body = JSON.parse(this.$route.params.contentDetail);
     return {
-      content_body: JSON.parse(this.$route.params.contentDetail),
+      content_body,
     };
   },
   methods: {
     //게시글 내용 가져오기 이건 상세 게시글에서 넘겨받아라
     //게시글 수정 api호출
     putContent() {
+      this.content_body.content = this.content_body.content.replace(
+        /(?:\r\n|\r|\n)/g,
+        "<br>"
+      );
       this.axios
         .put("/content/" + this.content_body.content_id, this.content_body)
         .then((res) => {

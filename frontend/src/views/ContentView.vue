@@ -27,7 +27,7 @@
     </div>
     <hr />
     <div>
-      <div class="content">{{ contentDetail.content }}</div>
+      <div class="content" v-html="contentDetail.content"></div>
     </div>
     <div class="recom-div">
       <div class="recom">{{ contentDetail.recom_num }}</div>
