@@ -62,7 +62,7 @@
         <hr />
       </div>
     </div>
-    <div>
+    <div style="padding-bottom: 30px">
       <div class="comment-write">댓글 쓰기</div>
       <div class="comment-post">
         <textarea
