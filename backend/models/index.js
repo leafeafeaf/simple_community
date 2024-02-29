@@ -9,7 +9,8 @@ const Recommendation = require('./recommendation');
 
 //.env 파일에 production이 아니면 개발중으로 인식
 const env = process.env.NODE_ENV || 'development';
-const config = require('../config/config')[env];
+//const config = require('../config/config')[env];
+const config = process.env.DB;
 const db = {};
 //config/config의 developement 부분을 가져옴
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
