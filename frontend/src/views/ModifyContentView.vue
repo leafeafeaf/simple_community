@@ -1,6 +1,6 @@
 <template>
   <div class="modify-div">
-    <form class="modify" @submit="putContent">
+    <div class="modify">
       <div>
         <input
           class="title"
@@ -22,10 +22,10 @@
         ></textarea>
       </div>
       <div class="btn-div">
-        <button type="submit" class="btn">등록</button>
+        <button class="btn" @click="putContent">등록</button>
         <button class="btn"><router-link to="/">취소</router-link></button>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 <script>
@@ -50,19 +50,15 @@ export default {
   methods: {
     //게시글 내용 가져오기 이건 상세 게시글에서 넘겨받아라
     //게시글 수정 api호출
-    putContent() {
+    async putContent() {
       this.content_body.content = this.content_body.content.replace(
         /(?:\r\n|\r|\n)/g,
         "<br>"
       );
-      this.axios
-        .put("/content/" + this.content_body.content_id, this.content_body)
-        .then((res) => {
-          console.log("성공", res);
-        })
-        .catch((res) => {
-          console.error("실패", res);
-        });
+      await this.axios.put(
+        "/content/" + this.content_body.content_id,
+        this.content_body
+      );
 
       this.$router.push({
         path: "/content/",

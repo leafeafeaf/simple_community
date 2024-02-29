@@ -331,7 +331,7 @@ export default {
 .content {
   text-align: left;
   width: 100%;
-  padding: 28% 3px 19% 0;
+  padding: 18% 3px 9% 0;
   margin-bottom: 10px;
   border-right: 0px solid black;
   border-left: 0px solid black;
