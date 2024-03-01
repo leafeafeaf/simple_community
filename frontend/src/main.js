@@ -7,7 +7,7 @@ import { store } from "./store";
 //서버와의 통신(http)을 위한 모듈
 import axios from "axios";
 //기본 url 설정
-axios.defaults.baseURL = "http://localhost:3030";
+axios.defaults.baseURL = "https://yamc-leafeafeaf.koyeb.app/";
 
 const app = createApp(App);
 
