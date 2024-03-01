@@ -11,25 +11,22 @@
 
 > 커뮤니티 사이트 👉 https://rollingpaper.site/
 
-(↑프로젝트 한 줄 설명 : 설명을 장황하게 작성하는 것보다 한 줄로 어떤 프로젝트인지 설명하는 것이 훨씬 직관적이다.)
-
-
-
-(↑프로젝트를 대표하는 대표 이미지)
+## 메인화면
+<div>
+<img src="img/simple1.png" width="500" height="500"/>
+</div>
 
 
 ## 📖 Description
 
-오프라인에 존재했던 롤링페이퍼 서비스를 온라인으로 옮겨왔습니다.
+심플한 게시판을 즐기세요!
 
-친구들, 동료들과 함께 링크를 공유하여 한 사람을 위한 롤링페이퍼를 만들어보세요.
+친구들, 동료들과 함께 링크를 공유하여 글을 작성하세요!
 
-다양한 종류의 편지지와 스티커로 화면을 꾸미고, 소중한 사람에게 뜻깊은 경험을 선물하세요!
+댓글 작성과 좋아요를 눌러 친구들의 글에 반응하세요!
 
-(↑프로젝트에 대한 자세한 설명)
+## :baby_chick: image
 
-## :baby_chick: Demo
-(↑해당 프로젝트가 실제 배포되고 있지 않아서, 이미지로 프로젝트의 뷰를 대체할 경우)
 <p float="left">
     <img src="https://lh3.googleusercontent.com/iYHEwh2_Q6nIKS67eItV4AwIokeJDNe0ojtpWGqKpRyhaRlmCSmBcnkFNCmXbTkajKA=w2560-h1330-rw" width=200 />
     <img src="https://lh3.googleusercontent.com/xl0sqT6Jz1p9Gq9slw4VXRr-akf4v74b_k3QkZUMZPvYV37-e5LqTZcOjofof4Xyl48=w2560-h1330-rw" width=200 />
