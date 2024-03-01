@@ -5,7 +5,6 @@ const morgan = require("morgan"); //로그 기록용
 const { sequelize } = require("./models");
 const cors = require("cors"); // cors 설정을 편안하게 하는 패키지
 
-
 //비밀키 불러옴 (process.env로 불러올 수 있음)
 dotenv.config();
 
@@ -24,11 +23,14 @@ sequelize
   });
 
 //미들웨어 설정
-app.use("/files", express.static(path.join(__dirname, "public"), {
-    setHeaders:(res,path,stat) =>{
-        res.set('Content-Disposition', "attachment")
-    }
-})); //public폴더 정적파일화
+app.use(
+  "/files",
+  express.static(path.join(__dirname, "public"), {
+    setHeaders: (res, path, stat) => {
+      res.set("Content-Disposition", "attachment");
+    },
+  })
+); //public폴더 정적파일화
 
 //미들웨어 설정
 app.use("/", express.static(path.join(__dirname, "fe"))); //public폴더 정적파일화
@@ -40,7 +42,7 @@ app.use(
 );
 app.use(
   cors({
-    origin: "http://0.0.0.0:8080", // 접근 권한을 부여하는 도메인
+    origin: "https://yamc-leafeafeaf.koyeb.app/", // 접근 권한을 부여하는 도메인
     credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
     optionsSuccessStatus: 200, // 응답 상태 200으로 설정
   })
