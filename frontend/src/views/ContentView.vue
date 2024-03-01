@@ -19,7 +19,7 @@
         <div>파일:</div>
         <!--<button id="sceneName" @click="saveBtn">버튼</button>-->
         <a
-          :href="`https://yamc-leafeafeaf.koyeb.app/files/${contentDetail.file}`"
+          :href="`https://0 0.0.0.0:3030/files/${contentDetail.file}`"
           download
           >{{ contentDetail.file }}</a
         >
