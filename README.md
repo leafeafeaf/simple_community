@@ -147,17 +147,17 @@ simple_community
 ## :baby_chick: image
 
 <div float="left">
-    <img src="img/simple1.png" width="500" height="500"/>
-    <img src="img/topbar.png" width="500" height="500"/>
-    <img src="img/array.png" width="500" height="500"/>
-    <img src="img/search.png" width="500" height="500"/>
-    <img src="img/paging.png" width="500" height="500"/>
-    <img src="img/download.png" width="500" height="500"/>
-    <img src="img/simple2.png" width="500" height="500"/>
-    <img src="img/simple3.png" width="500" height="500"/>
-    <img src="img/simple4.png" width="500" height="500"/>
-    <img src="img/login.png" width="500" height="500"/>
-    <img src="img/sign.png" width="500" height="500"/>
+    <img src="img/simple1.png" width="500" />
+    <img src="img/topbar.png" width="500" />
+    <img src="img/array.png" width="500" />
+    <img src="img/search.png" width="500" />
+    <img src="img/paging.png" width="500"/>
+    <img src="img/download.png" width="500" />
+    <img src="img/simple2.png" width="500" />
+    <img src="img/simple3.png" width="500"/>
+    <img src="img/simple4.png" width="500" />
+    <img src="img/login.png" width="500" />
+    <img src="img/sign.png" width="500" />
 </div>
 
 ## 👨‍👩‍👧‍👦 Developer
