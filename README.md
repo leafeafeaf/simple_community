@@ -1,119 +1,168 @@
 
 # 👨‍👩‍👦‍👦 Simple Community 👨‍👩‍👦‍👦 
 
-
-
-[![code](https://img.shields.io/badge/Code-Vue.js-blue)](https://ko.vuejs.org/)
+[![Framework](https://img.shields.io/badge/Code-Vue.js-blue)](https://ko.vuejs.org/)
+[![Framework](https://img.shields.io/badge/Code-Node.js-blue)](https://nodejs.org/en)
 [![DBMS](https://img.shields.io/badge/DBMS-MySQL-orange)](https://www.mysql.com/downloads/)
 
+> 커뮤니티 사이트 👉 
 
+## 📖 개요
 
+심플한 게시판
 
-> 커뮤니티 사이트 👉 https://rollingpaper.site/
+친구들, 동료들과 함께 링크를 공유하여 글을 작성
 
-## 메인화면
+댓글 작성과 좋아요
+
 <div>
 <img src="img/simple1.png" width="500" height="500"/>
 </div>
 
+## 📖 목표
 
-## 📖 Description
-
-심플한 게시판을 즐기세요!
-
-친구들, 동료들과 함께 링크를 공유하여 글을 작성하세요!
-
-댓글 작성과 좋아요를 눌러 친구들의 글에 반응하세요!
-
-## :baby_chick: image
-
-<p float="left">
-    <img src="https://lh3.googleusercontent.com/iYHEwh2_Q6nIKS67eItV4AwIokeJDNe0ojtpWGqKpRyhaRlmCSmBcnkFNCmXbTkajKA=w2560-h1330-rw" width=200 />
-    <img src="https://lh3.googleusercontent.com/xl0sqT6Jz1p9Gq9slw4VXRr-akf4v74b_k3QkZUMZPvYV37-e5LqTZcOjofof4Xyl48=w2560-h1330-rw" width=200 />
-    <img src="https://lh3.googleusercontent.com/JqUUXWSgU0bhSBpOObERLvfUGE3eBnInmYvDMY3S2aAatyeFKLOifWnBLgZ0KLGbmA=w2560-h1330-rw" width=200 />
-    <img src="https://lh3.googleusercontent.com/AdN5fkguQMSc4M6iVkAFONsuxZhOQaKE7TDzuhF56FgDLORAnBv8160W7vva4a6kFBg=w2560-h1330-rw" width=200 />
-    <img src="https://lh3.googleusercontent.com/ruDvvtKehqGB_4PX7QBsUY2RLDe_v6g5FL-_XmC6SUGjKUQqa08Uy-DtsNi8wYuuXU4=w2560-h1330-rw" width=200 />
-</p>
-
-## ⭐ Main Feature
-### 정기 결제 기능
-- 아임포트(Iamport)를 이용한 정기 결제 기능 구현
-
-### 회원가입 및 로그인 
-- JWT 이용
-
-### 기타 기능
-- 상품 리스트 조회 및 세부 사항 조회
-- 마이페이지
-
-## 💻 Getting Started
-(↑해당 프로젝트 설치 및 실행 방법)
-
-### Installation
-```
-npm install
-```
-### Develop Mode
-```
-npm run dev
-```
-### Production
-```
-npm run build
-```
+- 전체 아키텍처 구성
+- Vue.js 와 node.js 학습
+- 프로젝트 일정에 맞게 완성
+- 모든 메인 기능 구현
 
 ## 🔧 Stack
 - **Language**: JavaScript
-- **Library & Framework** : Node.js
-- **Database** : AWS RDS (MariaDB)
+- **Library & Framework** : Vue.js & Node.js
+- **Database** : MYSQL
 - **ORM** : Sequelize
-- **Deploy**: AWS EC2
+
+## ⭐ 메인 기능
+### 게시판 기능
+- 게시글 작성
+- 게시글 수정
+- 게시글 삭제
+- 게시글 검색(제목, 작성자)
+- 페이지 이동 <이전 1, 2, 3 … 다음>
+- 좋아요(추천)
+- 게시글 정렬(최신순, 댓글순, 조회수순, 추천순)
+- 인기글 (추천 10개이상)
+
+### 댓글 기능
+- 댓글 작성
+- 댓글 삭제
+
+### 로그인 & 회원가입 기능
+
+## 👨‍💻 프로젝트 일정
+### UI 구현
+|작업|일정|진행|
+|---|---|---|
+|상단바|2024.02.02 까지|O|
+|메인화면|2024.02.02 까지|O|
+|로그인화면|2024.02.02 까지|O|
+|회원가입화면|2024.02.02 까지|O|
+|상세 게시글 화면|2024.02.07 까지|O|
+|댓글|2024.02.07 까지|O|
+|게시글 작성|2024.02.07 까지|O|
+|게시글 수정|2024.02.07 까지|O|
+|디자인 전체 보완|2024.02.16 까지|O|
+
+### 기능 구현
+|작업|일정|진행|
+|---|---|---|
+|라우팅(화면이동)|2024.02.02 까지|O|
+|멀티미디어 파일|2024.02.08 까지|O|
+|페이지 번호|2024.02.08 까지|O|
+|게시글 검색|2024.02.08 까지|O|
+|상세 게시글 화면|2024.02.08 까지|O|
+|게시글 정렬|2024.02.08 까지|O|
+|추천 기능|2024.02.08 까지|O|
+
+### 연동 구현
+|작업|일정|진행|
+|---|---|---|
+|백엔드 연동|2024.02.16 까지|O|
+
+### DB 구현
+|작업|일정|진행|
+|---|---|---|
+|테이블 설계|2024.02.01 까지|O|
+|테이블 구현|2024.02.07 까지|O|
+|서버 연동|2024.02.07 까지|O|
+
+### API 구현
+|작업|일정|진행|
+|---|---|---|
+|로그인|2024.02.06 까지|O|
+|회원가입|2024.02.06 까지|O|
+|ID 중복 체크|2024.02.06 까지|O|
+|email 중복 체크|2024.02.06 까지|O|
+|게시글 리스트 가져오기|2024.02.06 까지|O|
+|상세 게시글 리스트 가져오기|2024.02.07 까지|O|
+|댓글 리스트 가져오기|2024.02.08 까지|O|
+|게시글 등록|2024.02.07 까지|O|
+|게시글 수정|2024.02.07 까지|O|
+|게시글 삭제|2024.02.07 까지|O|
+|댓글 등록|2024.02.08 까지|O|
+|댓글 삭제|2024.02.08 까지|O|
+|좋아요(추천)|2024.02.15 까지|O|
+
+### 테스트 및 빌드 배포
+|작업|일정|진행|
+|---|---|---|
+|통합 테스트|2024.02.15 까지|O|
+|배포|2024.02.16 까지|X|
+
+## ⚒ API 명세서
+### API 구현
+|REST API|설명|URL|
+|---|---|---|
+|POST|게시글 작성|/content|
+|PUT|게시글 수정|/content/{/content_id}|
+|DELETE|게시글 삭제|/content/{/content_id}|
+|GET|게시글 정보 받아오기|/content/{/content_id}|
+|GET|게시글 리스트 받아오기(검색,정렬,인기글)|/content/list|
+|GET|댓글 리스트 받아오기|/content/list/{content_id}|
+|POST|댓글 작성|/comment|
+|DELETE|댓글 삭제|/comment/{comment_id}|
+|POST|좋아요|/like/{content_id}|
+|GET|로그인|/login|
+|POST|회원가입|/sign|
+|GET|ID 중복 체크|/id-check|
+|GET|email 중복 체크|/email-check|
 
 ## :open_file_folder: Project Structure
 
 ```markdown
-src
-├── common
-│   ├── config
-│   ├── types
-│   └── utils
-│       ├── types
-│       └── utils
-├── controller
-├── entity
-├── infrastructure
-│   ├── express
-│   └── typeorm
-├── repository
-└── ser
+simple_community
+├── backend
+|   ├── config
+│   ├── build
+│   ├── models
+│   └── public
+│   └── routes
+├── frontend
+│   ├── public
+│   └── src
+│       └── assets
+│       └── components
+│       └── router
+│       └── views
 ```
 
-## 🔨 Server Architecture
-(↑서버 아키텍처에 대한 내용을 그림으로 표현함으로써 인프라를 어떻게 구축했는 지 한 눈에 보여줄 수 있다.)
-![](https://docs.aws.amazon.com/gamelift/latest/developerguide/images/realtime-whatis-architecture-vsd.png)
+## :baby_chick: image
 
-## ⚒ CI/CD
-- github actions를 활용해서 지속적 통합 및 배포
-- `feature` 브랜치에서 `dev`로 Pull Request를 보내면, CI가 동작된다.
-- `dev`에서 `master`로 Pull Request를 보내면, CI가 동작되고 Merge가 되면, 운영 리소스에 배포된다.
-
-## 👨‍💻 Role & Contribution
-
-**Frontend (Web)**
-
-- 관리자 페이지 (Vue.js) 개발
-- 전체 아키텍처 구성
-
-**Devops**
-
-- CI/CD 구축 (Docker, Github Action)
-- 서버 모니터링
-
-**etc**
-
-- 전체 개발 일정 및 이슈 관리
+<div float="left">
+    <img src="img/simple1.png" width="500" height="500"/>
+    <img src="img/topbar.png" width="500" height="500"/>
+    <img src="img/array.png" width="500" height="500"/>
+    <img src="img/search.png" width="500" height="500"/>
+    <img src="img/paging.png" width="500" height="500"/>
+    <img src="img/download.png" width="500" height="500"/>
+    <img src="img/simple2.png" width="500" height="500"/>
+    <img src="img/simple3.png" width="500" height="500"/>
+    <img src="img/simple4.png" width="500" height="500"/>
+    <img src="img/login.png" width="500" height="500"/>
+    <img src="img/sign.png" width="500" height="500"/>
+</div>
 
 ## 👨‍👩‍👧‍👦 Developer
-*  **박재성** ([jaeseongDev](https://github.com/jaeseongDev))
-*  **고성진** ([seongjin96](https://github.com/seongjin96))
-*  **조연희** ([yeoneei](https://github.com/yeoneei))
+*  **김성민** ([jaeseongDev](https://github.com/jaeseongDev))
+*  **박지훈** ([seongjin96](https://github.com/seongjin96))
+
