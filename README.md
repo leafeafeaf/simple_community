@@ -5,7 +5,7 @@
 [![Framework](https://img.shields.io/badge/Framework-Node.js-blue)](https://nodejs.org/en)
 [![DBMS](https://img.shields.io/badge/DBMS-MySQL-orange)](https://www.mysql.com/downloads/)
 
-> 종합 문서(설계 및 구현 관련) 👉 ((simple_community 문서)(https://docs.google.com/presentation/d/173rXzZr5QMYHMpHfmf4wgdkjww10hKOx7IfdWLjDXxU/edit?usp=sharing))
+> 종합 문서(설계 및 구현 관련) 👉 ([simple_community 문서](https://docs.google.com/presentation/d/173rXzZr5QMYHMpHfmf4wgdkjww10hKOx7IfdWLjDXxU/edit?usp=sharing))
 ## 📖 개요
 
 심플한 게시판
