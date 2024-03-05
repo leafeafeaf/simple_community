@@ -164,5 +164,5 @@ simple_community
 
 ## 👨‍👩‍👧‍👦 Developer
 *  **김성민** ([jaeseongDev](https://github.com/jaeseongDev))
-*  **박지훈** ([seongjin96](https://github.com/seongjin96))
+*  **박지훈** ([dispear](https://github.com/dispear))
 
