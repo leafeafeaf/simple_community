@@ -1,8 +1,8 @@
 
 # 👨‍👩‍👦‍👦 Simple Community 👨‍👩‍👦‍👦 
 
-[![Framework](https://img.shields.io/badge/Code-Vue.js-blue)](https://ko.vuejs.org/)
-[![Framework](https://img.shields.io/badge/Code-Node.js-blue)](https://nodejs.org/en)
+[![Framework](https://img.shields.io/badge/Framework-Vue.js-blue)](https://ko.vuejs.org/)
+[![Framework](https://img.shields.io/badge/Framework-Node.js-blue)](https://nodejs.org/en)
 [![DBMS](https://img.shields.io/badge/DBMS-MySQL-orange)](https://www.mysql.com/downloads/)
 
 > 커뮤니티 사이트 👉 
@@ -16,7 +16,7 @@
 댓글 작성과 좋아요
 
 <div>
-<img src="img/simple1.png" width="500" height="500"/>
+<img src="img/simple1.png" width="80%"/>
 </div>
 
 ## 📖 목표
@@ -147,17 +147,38 @@ simple_community
 ## :baby_chick: image
 
 <div float="left">
-    <img src="img/simple1.png" width="500" />
-    <img src="img/topbar.png" width="500" />
-    <img src="img/array.png" width="500" />
-    <img src="img/search.png" width="500" />
-    <img src="img/paging.png" width="500"/>
-    <img src="img/download.png" width="500" />
-    <img src="img/simple2.png" width="500" />
-    <img src="img/simple3.png" width="500"/>
-    <img src="img/simple4.png" width="500" />
-    <img src="img/login.png" width="500" />
-    <img src="img/sign.png" width="500" />
+    <h3>기본 메인 화면</h3>
+    <img src="img/simple1.png" width="80%" />
+    <br>
+    <h3>탑바</h3>
+    <img src="img/topbar.png" width="80%" />
+    <br>
+    <h3>정렬</h3>
+    <img src="img/array.png" width="80%" />
+    <br>
+    <h3>검색</h3>
+    <img src="img/search.png" width="80%" />
+    <br>
+    <h3>페이지 번호</h3>
+    <img src="img/paging.png" width="80%"/>
+    <br>
+    <h3>파일 업로드 및 다운로드</h3>
+    <img src="img/download.png" width="80%" />
+    <br>
+    <h3>비로그인 게시글</h3>
+    <img src="img/simple2.png" width="80%" />
+    <br>
+    <h3>사용자 게시글</h3>
+    <img src="img/simple3.png" width="80%"/>
+    <br>
+    <h3>작성자 게시글</h3>
+    <img src="img/simple4.png" width="80%" />
+    <br>
+    <h3>로그인</h3>
+    <img src="img/login.png" width="80%" />
+    <br>
+    <h3>회원가입</h3>
+    <img src="img/sign.png" width="80%" />
 </div>
 
 ## 👨‍👩‍👧‍👦 Developer
